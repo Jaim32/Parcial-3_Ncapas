@@ -12,5 +12,6 @@ spring:
 life:
   app:
     jwt:
-      secret: ${LIFE_APP_JWT_SECRET:mysecretjwtkey1234567890}
-      expiration: ${LIFE_APP_JWT_EXPIRATION:3600000}
+      secret: mySuperSecureJwtSecretKeyThatIsLongEnough123456
+      expiration: 3600000
+
