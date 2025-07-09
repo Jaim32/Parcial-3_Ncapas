@@ -9,6 +9,7 @@ import com.uca.parcialfinalncapas.repository.UserRepository;
 import com.uca.parcialfinalncapas.service.UserService;
 import com.uca.parcialfinalncapas.utils.mappers.UserMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,8 @@ import java.util.List;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder; // <<--- Asegúrate de tener esta línea
+
 
     @Override
     public UserResponse findByCorreo(String correo) {
@@ -26,12 +29,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse save(UserCreateRequest user) {
-
         if (userRepository.findByCorreo(user.getCorreo()).isPresent()) {
             throw new UserNotFoundException("Ya existe un usuario con el correo: " + user.getCorreo());
         }
 
-        return UserMapper.toDTO(userRepository.save(UserMapper.toEntityCreate(user)));
+        User entity = UserMapper.toEntityCreate(user);
+        entity.setPassword(passwordEncoder.encode(entity.getPassword())); // <<--- Encriptar la contraseña
+
+        return UserMapper.toDTO(userRepository.save(entity));
     }
 
     @Override
