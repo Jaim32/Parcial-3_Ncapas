@@ -19,5 +19,5 @@ public class User {
     private String nombre;
     private String correo;
     private String password;
-    private String nombreRol; // USER o TECH
+    private String nombreRol;
 }
