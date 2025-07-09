@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: soporte_db
+    ports:
+      - "5544:5432"
+    environment:
+      POSTGRES_DB: supportdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    build: ./pracial_3
+    container_name: soporte_app
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/supportdb
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin123
+      LIFE_APP_JWT_SECRET: hfehfeof030b00149320
+      LIFE_APP_JWT_EXPIRATION: 3600000
+    restart: unless-stopped
+
+volumes:
+  pgdata:

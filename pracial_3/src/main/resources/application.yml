@@ -1,8 +1,9 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/supportdb
-    username: admin
-    password: admin123
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/supportdb}
+    username: ${SPRING_DATASOURCE_USERNAME:admin}
+    password: ${SPRING_DATASOURCE_PASSWORD:admin123}
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -11,5 +12,5 @@ spring:
 life:
   app:
     jwt:
-      secret: mysecretjwtkey1234567890
-      expiration: 3600000
+      secret: ${LIFE_APP_JWT_SECRET:mysecretjwtkey1234567890}
+      expiration: ${LIFE_APP_JWT_EXPIRATION:3600000}
