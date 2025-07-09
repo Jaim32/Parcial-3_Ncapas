@@ -1,0 +1,301 @@
+type: collection.insomnia.rest/5.0
+name: P3
+meta:
+  id: wrk_0239593df2fd4d3687d00296bc8b5eec
+  created: 1752023749381
+  modified: 1752023749381
+  description: ""
+collection:
+  - url: http://localhost:8080/api/users
+    name: create
+    meta:
+      id: req_cda3996c716c44e1a64574a7fa0383c2
+      created: 1752023755406
+      modified: 1752025782830
+      isPrivate: false
+      description: ""
+      sortKey: -1752023755406
+    method: POST
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "nombre": "Nuevo Usuario1",
+          "correo": "user3@test.com",
+          "password": "password3",
+          "nombreRol": "TECH"  
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.2.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: " http://localhost:8080/auth/login"
+    name: login
+    meta:
+      id: req_652d9e6405b84cdeb1d7d622dcb4bc60
+      created: 1752024399152
+      modified: 1752026789324
+      isPrivate: false
+      description: ""
+      sortKey: -1752024399152
+    method: POST
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "correo": "user3@test.com",
+          "password": "password3"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.2.0
+    authentication:
+      type: none
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/api/users/all
+    name: allusuarios
+    meta:
+      id: req_e84e2746545240ee9d166d90288554d1
+      created: 1752025816880
+      modified: 1752025846446
+      isPrivate: false
+      description: ""
+      sortKey: -1752025816880
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.2.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMkB0ZXN0LmNvbSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzUyMDI1NDc3LCJleHAiOjE3NTIwMjkwNzd9.-d9KPkN3AiS7NXH9sQrXrFJ3LgcSIM80sIYeeQwkfHU
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/api/users/user2@test.com
+    name: correo
+    meta:
+      id: req_416ced9b21b8457c8dfb18ac00796b7c
+      created: 1752025862020
+      modified: 1752025894025
+      isPrivate: false
+      description: ""
+      sortKey: -1752025862020
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.2.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMkB0ZXN0LmNvbSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzUyMDI1NDc3LCJleHAiOjE3NTIwMjkwNzd9.-d9KPkN3AiS7NXH9sQrXrFJ3LgcSIM80sIYeeQwkfHU
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/api/users/1
+    name: delete
+    meta:
+      id: req_edf7c7f6881341cb946b1f534922c0f6
+      created: 1752025904955
+      modified: 1752025944286
+      isPrivate: false
+      description: ""
+      sortKey: -1752025904955
+    method: DELETE
+    headers:
+      - name: User-Agent
+        value: insomnia/11.2.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/api/tickets
+    name: crear ticket
+    meta:
+      id: req_42178927159e48cda0ba4d1581fd33f3
+      created: 1752026270501
+      modified: 1752026510808
+      isPrivate: false
+      description: ""
+      sortKey: -1752026270501
+    method: POST
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "titulo": "Error en el sistema",
+          "descripcion": "No puedo acceder al sistema desde esta mañana",
+          "correoUsuario": "user2@test.com",
+          "correoSoporte": "user3@test.com"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.2.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMkB0ZXN0LmNvbSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzUyMDI1NDc3LCJleHAiOjE3NTIwMjkwNzd9.-d9KPkN3AiS7NXH9sQrXrFJ3LgcSIM80sIYeeQwkfHU
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/api/tickets/1
+    name: ver tickets por id
+    meta:
+      id: req_319ba4e0ca3640908bb78a17f8f2b838
+      created: 1752026293117
+      modified: 1752026582550
+      isPrivate: false
+      description: ""
+      sortKey: -1752026293117
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.2.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMkB0ZXN0LmNvbSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzUyMDI1NDc3LCJleHAiOjE3NTIwMjkwNzd9.-d9KPkN3AiS7NXH9sQrXrFJ3LgcSIM80sIYeeQwkfHU
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/api/tickets
+    name: Ver todos los tickets
+    meta:
+      id: req_a033095c5e384097b6d96b5a42b04d8d
+      created: 1752026306718
+      modified: 1752026641277
+      isPrivate: false
+      description: ""
+      sortKey: -1752026306718
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.2.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyM0B0ZXN0LmNvbSIsInJvbGUiOiJURUNIIiwiaWF0IjoxNzUyMDI2NjI3LCJleHAiOjE3NTIwMzAyMjd9.GlgE0Ql5rJhASNdjrI6CV4z4n8hzww99jvBoECcaY9o
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/api/tickets
+    name: Actualizar ticket
+    meta:
+      id: req_109ebf8ed61143588da3e15f13fd5d1c
+      created: 1752026316517
+      modified: 1752026716385
+      isPrivate: false
+      description: ""
+      sortKey: -1752026316517
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "id": 1,
+          "estado": "EN_PROCESO",
+          "comentarioTecnico": "Estamos revisando el error",
+          "correoSoporte": "user3@test.com"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.2.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyM0B0ZXN0LmNvbSIsInJvbGUiOiJURUNIIiwiaWF0IjoxNzUyMDI2NjI3LCJleHAiOjE3NTIwMzAyMjd9.GlgE0Ql5rJhASNdjrI6CV4z4n8hzww99jvBoECcaY9o
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/api/tickets/1
+    name: Eliminar ticket
+    meta:
+      id: req_12ff01ec76ae4c4980402490c99c8507
+      created: 1752026328033
+      modified: 1752026800000
+      isPrivate: false
+      description: ""
+      sortKey: -1752026328033
+    method: DELETE
+    headers:
+      - name: User-Agent
+        value: insomnia/11.2.0
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyM0B0ZXN0LmNvbSIsInJvbGUiOiJURUNIIiwiaWF0IjoxNzUyMDI2NzkwLCJleHAiOjE3NTIwMzAzOTB9.Rtx-kre-bgX3wEa-0p5bNxPsUukvZLohhHzsZFwSBUU
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_7808a2a407dff7aad33decee5941d03553db0267
+    created: 1752023749385
+    modified: 1752023749385
+environments:
+  name: Base Environment
+  meta:
+    id: env_7808a2a407dff7aad33decee5941d03553db0267
+    created: 1752023749383
+    modified: 1752023749383
+    isPrivate: false
