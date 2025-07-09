@@ -15,17 +15,19 @@ import com.uca.parcialfinalncapas.service.TicketService;
 import com.uca.parcialfinalncapas.utils.enums.Rol;
 import com.uca.parcialfinalncapas.utils.mappers.TicketMapper;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Esta clase implementa los servicios relacionados con los tickets.
- * Utiliza el TicketRepository para realizar operaciones de acceso a datos.
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TicketServiceImpl implements TicketService {
 
     private final TicketRepository ticketRepository;
@@ -44,13 +46,15 @@ public class TicketServiceImpl implements TicketService {
             throw new BadTicketRequestException("El usuario asignado no es un técnico de soporte");
         }
 
-        var ticketGuardado = ticketRepository.save(TicketMapper.toEntityCreate(ticket, usuarioSolicitante.getId(), usuarioSoporte.getId()));
+        var ticketGuardado = ticketRepository.save(
+                TicketMapper.toEntityCreate(ticket, usuarioSolicitante.getId(), usuarioSoporte.getId()));
 
         return TicketMapper.toDTO(ticketGuardado, usuarioSolicitante.getCorreo(), usuarioSoporte.getCorreo());
     }
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('TECH')")
     public TicketResponse updateTicket(TicketUpdateRequest ticket) {
         Ticket ticketExistente = ticketRepository.findById(ticket.getId())
                 .orElseThrow(() -> new TicketNotFoundException("Ticket no encontrado con ID: " + ticket.getId()));
@@ -65,7 +69,8 @@ public class TicketServiceImpl implements TicketService {
             throw new BadTicketRequestException("El usuario asignado no es un técnico de soporte");
         }
 
-        var ticketGuardado = ticketRepository.save(TicketMapper.toEntityUpdate(ticket, usuarioSoporte.getId(), ticketExistente));
+        var ticketGuardado = ticketRepository.save(
+                TicketMapper.toEntityUpdate(ticket, usuarioSoporte.getId(), ticketExistente));
 
         return TicketMapper.toDTO(ticketGuardado, usuarioSolicitante.getCorreo(), usuarioSoporte.getCorreo());
     }
@@ -80,20 +85,32 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public TicketResponse getTicketById(Long id) {
-    var ticketExistente = ticketRepository.findById(id)
-            .orElseThrow(() -> new TicketNotFoundException("Ticket no encontrado con ID: " + id));
+        var ticketExistente = ticketRepository.findById(id)
+                .orElseThrow(() -> new TicketNotFoundException("Ticket no encontrado con ID: " + id));
 
-    var usuarioSolicitante = userRepository.findById(ticketExistente.getUsuarioId())
-            .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
+        var usuarioSolicitante = userRepository.findById(ticketExistente.getUsuarioId())
+                .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
 
-    var usuarioSoporte = userRepository.findById(ticketExistente.getTecnicoAsignadoId())
-            .orElseThrow(() -> new UserNotFoundException("Usuario asignado no encontrado"));
+        var usuarioSoporte = userRepository.findById(ticketExistente.getTecnicoAsignadoId())
+                .orElseThrow(() -> new UserNotFoundException("Usuario asignado no encontrado"));
 
         return TicketMapper.toDTO(ticketExistente, usuarioSolicitante.getCorreo(), usuarioSoporte.getCorreo());
     }
 
     @Override
     public List<TicketResponseList> getAllTickets() {
-        return TicketMapper.toDTOList(ticketRepository.findAll());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean esTech = auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_TECH"));
+
+        if (esTech) {
+            return TicketMapper.toDTOList(ticketRepository.findAll());
+        }
+
+        String correo = auth.getName();
+        User usuario = userRepository.findByCorreo(correo)
+                .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
+
+        return TicketMapper.toDTOList(ticketRepository.findByUsuarioId(usuario.getId()));
     }
 }

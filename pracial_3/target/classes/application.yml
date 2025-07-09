@@ -12,4 +12,4 @@ life:
   app:
     jwt:
       secret: mysecretjwtkey1234567890
-      expiration: 3600000               
+      expiration: 3600000
